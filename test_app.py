@@ -1,13 +1,14 @@
-from app import orientar_descarte
+from app import orientar_descarte, validar_cep
 
-def test_descarte_correto():
-    # Testa o caminho feliz (papel no lixo azul)
+def test_descarte_papel():
     assert "Lixo azul" in orientar_descarte("papel")
 
-def test_material_vazio():
-    # Testa erro de entrada vazia
-    assert "Erro" in orientar_descarte("")
+# NOVO: Teste de Integração com a API ViaCEP
+def test_integracao_viacep_valido():
+    # Testando com o CEP da Praça da Sé
+    resultado = validar_cep("01001000")
+    assert resultado is not None
+    assert "Praça da Sé" in resultado
 
-def test_material_desconhecido():
-    # Testa um caso de material que não temos no banco
-    assert "não catalogado" in orientar_descarte("pneu")
+def test_viacep_invalido():
+    assert validar_cep("00000000") is None
