@@ -29,11 +29,5 @@ def orientar_descarte(material):
 
 if __name__ == "__main__":
     print("--- EcoTask: Descarte Consciente ---")
-    cep_input = input("Digite o seu CEP para validar a localização: ")
-    endereco = validar_cep(cep_input)
-    if endereco:
-        print(f"✅ Localização confirmada: {endereco}")
-    else:
-        print("❌ CEP inválido ou não encontrado.")
-    item = input("\nQual material deseja descartar? ")
+    item = input("Qual material deseja descartar? ")
     print(orientar_descarte(item))
