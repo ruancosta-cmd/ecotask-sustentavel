@@ -12,14 +12,16 @@ def validar_cep(cep):
         if response.status_code == 200:
             data = response.json()
             if "erro" not in data:
-                return f"{data.get('logradouro')}, {data.get('localidade')}"
+                logradouro = data.get('logradouro', '')
+                localidade = data.get('localidade', '')
+                return f"{logradouro}, {localidade}"
     except Exception:
         return None
     return None
 
 
 def orientar_descarte(material):
-    """Diz a cor do lixo para o material."""
+    """Retorna a cor do lixo para o material."""
     materiais = {
         "papel": "Lixo azul",
         "plastico": "Lixo vermelho",
