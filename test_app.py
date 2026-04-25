@@ -4,6 +4,7 @@ def test_descarte_papel():
     assert "Lixo azul" in orientar_descarte("papel")
 
 def test_integracao_viacep_valido():
-    # Este é o teste de integração exigido pelo professor
+    # Teste de integração real exigido pelo professor
     resultado = validar_cep("01001000")
     assert resultado is not None
+    assert "Praça da Sé" in resultado
