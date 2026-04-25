@@ -2,7 +2,7 @@ import requests
 
 def validar_cep(cep):
     """Consulta a API ViaCEP para validar o endereço."""
-    cep = cep.replace("-", "").strip()
+    cep = str(cep).replace("-", "").strip()
     if len(cep) != 8 or not cep.isdigit():
         return None
     
@@ -12,22 +12,22 @@ def validar_cep(cep):
         if resposta.status_code == 200:
             dados = resposta.json()
             if "erro" not in dados:
-                return f"{dados['logradouro']}, {dados['bairro']} - {dados['localidade']}/{dados['uf']}"
+                logradouro = dados.get('logradouro', '')
+                localidade = dados.get('localidade', '')
+                return f"{logradouro}, {localidade}"
     except requests.exceptions.RequestException:
         return None
     return None
 
 def orientar_descarte(material):
+    """Retorna a cor do lixo para cada material."""
     banco_dados = {
-        "pilha": "Descarte em coletores específicos de eletrônicos ou farmácias.",
-        "papel": "Lixo azul. Certifique-se de que não está sujo com comida.",
-        "plastico": "Lixo vermelho. Lave o recipiente.",
-        "vidro": "Lixo verde. Se estiver quebrado, embrulhe em jornal."
+        "pilha": "Coletores especificos",
+        "papel": "Lixo azul",
+        "plastico": "Lixo vermelho",
+        "vidro": "Lixo verde"
     }
-    material_limpo = material.lower().strip()
-    return banco_dados.get(material_limpo, "Material não catalogado.")
+    return banco_dados.get(material.lower().strip(), "Material nao catalogado")
 
 if __name__ == "__main__":
-    print("--- EcoTask: Descarte Consciente ---")
-    item = input("Qual material deseja descartar? ")
-    print(orientar_descarte(item))
+    print("EcoTask")
