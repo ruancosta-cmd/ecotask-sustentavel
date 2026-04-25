@@ -1,9 +1,11 @@
 import requests
 
 def validar_cep(cep):
+    """Consulta a API ViaCEP para validar o endereço."""
     cep = cep.replace("-", "").strip()
     if len(cep) != 8 or not cep.isdigit():
         return None
+    
     url = f"https://viacep.com.br/ws/{cep}/json/"
     try:
         resposta = requests.get(url, timeout=5)
@@ -16,13 +18,22 @@ def validar_cep(cep):
     return None
 
 def orientar_descarte(material):
-    banco = {"pilha": "Coletores de eletrônicos.", "papel": "Lixo azul.", "vidro": "Lixo verde."}
-    return banco.get(material.lower().strip(), "Material não catalogado.")
+    banco_dados = {
+        "pilha": "Descarte em coletores específicos de eletrônicos ou farmácias.",
+        "papel": "Lixo azul. Certifique-se de que não está sujo com comida.",
+        "plastico": "Lixo vermelho. Lave o recipiente.",
+        "vidro": "Lixo verde. Se estiver quebrado, embrulhe em jornal."
+    }
+    material_limpo = material.lower().strip()
+    return banco_dados.get(material_limpo, "Material não catalogado.")
 
 if __name__ == "__main__":
-    print("--- EcoTask Intermediário ---")
-    c = input("CEP: ")
-    end = validar_cep(c)
-    print(f"Endereço: {end}" if end else "CEP inválido.")
-    m = input("Material: ")
-    print(orientar_descarte(m))
+    print("--- EcoTask: Descarte Consciente ---")
+    cep_input = input("Digite o seu CEP para validar a localização: ")
+    endereco = validar_cep(cep_input)
+    if endereco:
+        print(f"✅ Localização confirmada: {endereco}")
+    else:
+        print("❌ CEP inválido ou não encontrado.")
+    item = input("\nQual material deseja descartar? ")
+    print(orientar_descarte(item))
