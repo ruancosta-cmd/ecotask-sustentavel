@@ -1,11 +1,11 @@
 import requests
 
+
 def validar_cep(cep):
     """Valida o CEP usando a API ViaCEP."""
     cep_limpo = str(cep).replace("-", "").strip()
     if len(cep_limpo) != 8 or not cep_limpo.isdigit():
         return None
-    
     url = f"https://viacep.com.br/ws/{cep_limpo}/json/"
     try:
         response = requests.get(url, timeout=10)
@@ -17,6 +17,7 @@ def validar_cep(cep):
         return None
     return None
 
+
 def orientar_descarte(material):
     """Diz a cor do lixo para o material."""
     materiais = {
@@ -26,6 +27,7 @@ def orientar_descarte(material):
         "pilha": "Coletores especificos"
     }
     return materiais.get(material.lower().strip(), "Nao catalogado")
+
 
 if __name__ == "__main__":
     print("EcoTask Rodando")
